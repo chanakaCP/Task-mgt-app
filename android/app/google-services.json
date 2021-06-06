@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "656079776711",
+    "project_id": "task-mgt-app",
+    "storage_bucket": "task-mgt-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656079776711:android:460193ea202a8703d107e2",
+        "android_client_info": {
+          "package_name": "com.example.task_mgt_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656079776711-jb8jbujckgsivlh9n1onopl5vco8hq2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAll35S9IUTrcgm0TKWab0EylEGGHRVKag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656079776711-jb8jbujckgsivlh9n1onopl5vco8hq2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
