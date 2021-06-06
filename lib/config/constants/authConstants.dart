@@ -1,6 +1,6 @@
 import 'package:task_mgt_app/config/storage/storage.dart';
 
-class AuthConst {
+class LocalStore {
   Future<void> storeUserid(String accessToken) async {
     await Storage().setValue("id", accessToken);
   }

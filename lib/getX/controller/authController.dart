@@ -33,7 +33,7 @@ class AuthController extends GetxController {
             Get.offAllNamed("/home");
           } else {
             Get.back();
-            customDialog.showErrorDialog(msg: value);
+            CustomDialog().failed(msg: value);
           }
         },
       );
@@ -50,7 +50,8 @@ class AuthController extends GetxController {
       isAdmin: radioValue.value == 0 ? false : true,
       profileURL: "default",
       taskAssigned: 0,
-      taskComleted: 0,
+      taskCompleted: 0,
+      createAt: DateTime.now(),
     );
 
     if (signInFormKey.currentState!.validate()) {
@@ -61,16 +62,12 @@ class AuthController extends GetxController {
           if (value == "Register Success") {
             print("succes");
             Get.back();
-            customDialog.showSuccessDialog(
-              msg: "Successfully Registered. \nPlease vait for approval",
-              callback: () {
-                Get.to(SignIn());
-              },
-            );
+            CustomDialog().success(
+                msg: "Successfully Registered. \nPlease vait for approval");
           } else {
             print("failed");
             Get.back();
-            customDialog.showErrorDialog(msg: value);
+            CustomDialog().failed(msg: value);
           }
         },
       );

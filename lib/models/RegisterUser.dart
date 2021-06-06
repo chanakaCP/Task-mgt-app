@@ -9,10 +9,12 @@ class RegisterUser {
   String? password;
   String? position;
   String? profileURL;
+  DateTime? createAt;
   bool? isApproved;
   bool? isAdmin;
+  bool? isRemoved;
   int? taskAssigned;
-  int? taskComleted;
+  int? taskCompleted;
 
   RegisterUser();
 
@@ -25,7 +27,8 @@ class RegisterUser {
     required this.isApproved,
     required this.isAdmin,
     required this.taskAssigned,
-    required this.taskComleted,
+    required this.taskCompleted,
+    required this.createAt,
   });
 
   RegisterUser.fromSnap({
@@ -35,22 +38,38 @@ class RegisterUser {
     required this.profileURL,
     required this.isApproved,
     required this.isAdmin,
+    required this.isRemoved,
     required this.userId,
     required this.taskAssigned,
-    required this.taskComleted,
+    required this.taskCompleted,
+    required this.createAt,
+  });
+
+  RegisterUser.fromSnapToLog({
+    required this.isApproved,
+    required this.isRemoved,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'email': email,
       'password': password,
       'position': position,
       'profileURL': profileURL,
       'isApproved': isApproved,
       'isAdmin': isAdmin,
       'taskAssigned': taskAssigned,
-      'taskComleted': taskComleted,
+      'taskCompleted': taskCompleted,
+    };
+  }
+
+  Map<String, dynamic> toUpdateMap() {
+    return {
+      'name': name,
+      'position': position,
+      // 'profileURL': profileURL,
+      'isApproved': isApproved,
+      'isAdmin': isAdmin,
     };
   }
 
@@ -64,7 +83,8 @@ class RegisterUser {
       isApproved: map['isApproved'],
       isAdmin: map['isAdmin'],
       taskAssigned: map['taskAssigned'],
-      taskComleted: map['taskComleted'],
+      taskCompleted: map['taskCompleted'],
+      createAt: map['createAt'],
     );
   }
 
@@ -82,7 +102,8 @@ class RegisterUser {
     bool? isApproved,
     bool? isAdmin,
     int? taskAssigned,
-    int? taskComleted,
+    int? taskCompleted,
+    DateTime? createAt,
   }) {
     return RegisterUser.withData(
       name: name ?? this.name,
@@ -92,8 +113,9 @@ class RegisterUser {
       profileURL: profileURL ?? this.profileURL,
       isApproved: isApproved ?? this.isApproved,
       isAdmin: isAdmin ?? this.isAdmin,
+      createAt: createAt ?? this.createAt,
       taskAssigned: taskAssigned ?? this.taskAssigned,
-      taskComleted: taskComleted ?? this.taskComleted,
+      taskCompleted: taskCompleted ?? this.taskCompleted,
     );
   }
 
@@ -104,10 +126,19 @@ class RegisterUser {
       position: snapshot['position'],
       profileURL: snapshot['profileURL'],
       isApproved: snapshot['isApproved'],
+      isRemoved: snapshot['isRemoved'],
       isAdmin: snapshot['isAdmin'],
+      createAt: snapshot['createAt'].toDate(),
       userId: snapshot['userId'],
       taskAssigned: snapshot['taskAssigned'],
-      taskComleted: snapshot['taskComleted'],
+      taskCompleted: snapshot['taskCompleted'] as int,
+    );
+  }
+
+  factory RegisterUser.fromDocumentSnapshotToLog(DocumentSnapshot snapshot) {
+    return RegisterUser.fromSnapToLog(
+      isApproved: snapshot['isApproved'],
+      isRemoved: snapshot['isRemoved'],
     );
   }
 }

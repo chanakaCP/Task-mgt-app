@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/common/customDialog.dart';
-import 'package:task_mgt_app/customWidgets/common/customSnackBar.dart';
+import 'package:task_mgt_app/customWidgets/common/customDialog.dart';
 import 'package:task_mgt_app/getX/services/databaseService.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
 import 'package:task_mgt_app/models/RegisterUser.dart';
@@ -34,18 +34,20 @@ class AssignActivityController extends GetxController {
       activity.assignedTo = assignedUser.userId;
 
       dbService.addActivity(activity).then((value) {
-        if (value.isSuccess!) {
+        if (value.isSuccess) {
           Get.back();
-          CustomSnackBar().success(msg: "Successfully asigned");
+          CustomDialog().success(msg: value.message.toString());
           Timer(Duration(milliseconds: 1250), () {
             Get.offAllNamed("/home");
           });
         } else {
           Get.back();
-          CustomSnackBar().failed(msg: "Failed to Insert");
+          // Get.back();
+          CustomDialog().failed(msg: value.message.toString());
         }
+        selectedUserId.value = " ";
       });
-    } else {}
+    }
   }
 
   onSelectUser(RegisterUser user) {

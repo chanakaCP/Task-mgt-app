@@ -7,7 +7,7 @@ import 'package:task_mgt_app/models/RegisterUser.dart';
 class FirebaseAuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final firestoreInstance = FirebaseFirestore.instance;
-  final AuthConst authConst = AuthConst();
+  final LocalStore localStore = LocalStore();
 
   Future signInWithEmailPassword(AuthUser user) async {
     try {
@@ -16,17 +16,22 @@ class FirebaseAuthServices {
 
       final firebaseUser = response.user;
       if (firebaseUser != null) {
-        var isApproved = await firestoreInstance
+        var result = await firestoreInstance
             .collection("users")
             .doc(response.user!.uid)
             .get()
-            .then((value) => value["isApproved"]);
-        if (isApproved == true) {
-          authConst.clearUserdata();
-          authConst.storeUserid(firebaseUser.uid.toString());
-          return "Login Success";
+            .then((value) => RegisterUser.fromDocumentSnapshotToLog(value));
+        // value["isApproved"]
+        if (!result.isRemoved!) {
+          if (result.isApproved!) {
+            localStore.clearUserdata();
+            localStore.storeUserid(firebaseUser.uid.toString());
+            return "Login Success";
+          } else {
+            return "This account doesn't \napproved yet";
+          }
         } else {
-          return "This account doesn't \napproved yet";
+          return "You have been removed!";
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -58,11 +63,12 @@ class FirebaseAuthServices {
           'email': user.email,
           'isAdmin': user.isAdmin,
           'isApproved': false,
+          "isRemoved": false,
           'position': user.position,
           'profileURL': user.profileURL,
           'createAt': DateTime.now(),
         });
-        authConst.storeUser(user.toJson());
+        localStore.storeUser(user.toJson());
         return "Register Success";
       } else {
         return "Registration failed, \nPlease try again";
@@ -95,7 +101,7 @@ class FirebaseAuthServices {
 
   Future signOut() async {
     try {
-      authConst.clearUserdata();
+      localStore.clearUserdata();
       return await _auth.signOut();
     } catch (e) {
       print(e.toString());

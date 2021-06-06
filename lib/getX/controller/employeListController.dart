@@ -3,7 +3,7 @@ import 'package:task_mgt_app/models/RegisterUser.dart';
 import 'package:task_mgt_app/screens/employeView/screens/employeView.dart';
 import 'package:task_mgt_app/services/firebaseStoreService.dart';
 
-class UserListController extends GetxController {
+class EmployeListController extends GetxController {
   RxBool isLoading = true.obs;
   RxInt currentIntex = 1.obs;
   RxList<RegisterUser> userlist = RxList<RegisterUser>();
@@ -11,11 +11,11 @@ class UserListController extends GetxController {
 
   @override
   void onInit() {
-    onInitAssignActivity();
+    bindUserList();
     super.onInit();
   }
 
-  onInitAssignActivity() {
+  bindUserList() {
     userlist.bindStream(FirebaseSotreServices().getUserList());
     stopLoading();
   }
@@ -30,7 +30,10 @@ class UserListController extends GetxController {
         userEmptyText.value = "No Approved Users...";
         break;
       case 3:
-        userEmptyText.value = "No Approved Users...";
+        userEmptyText.value = "No Pending Users...";
+        break;
+      case 4:
+        userEmptyText.value = "No Removed Users...";
         break;
       default:
     }

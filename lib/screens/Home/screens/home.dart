@@ -18,17 +18,26 @@ class Home extends StatelessWidget {
     return Obx(() {
       if (homeController.user!.value.isAdmin != null) {
         return Scaffold(
-          floatingActionButton: (homeController.user!.value.isAdmin! == true)
-              ? FloatingActionButton(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  onPressed: () {
-                    Get.to(EmployeList());
-                    // Get.to(ManageActivity(isEdit: true));
-                  },
-                  child: Icon(Icons.add),
-                )
-              : Container(),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            onPressed: () {
+              Get.to(EmployeList());
+              // Get.to(ManageActivity(isEdit: true));
+            },
+            child: Icon(Icons.add),
+          ),
+          // (homeController.user!.value.isAdmin! == true)
+          //     ? FloatingActionButton(
+          //         backgroundColor: Colors.blue,
+          //         foregroundColor: Colors.white,
+          //         onPressed: () {
+          //           Get.to(EmployeList());
+          //           // Get.to(ManageActivity(isEdit: true));
+          //         },
+          //         child: Icon(Icons.add),
+          //       )
+          //     : Container(),
           appBar: CustomAppBar(
             title: "Home",
             drawerCallback: () {},

@@ -1,6 +1,6 @@
 class ResponceModel {
-  final String? message;
-  final bool? isSuccess;
+  final String message;
+  final bool isSuccess;
 
-  ResponceModel({this.message, this.isSuccess});
+  ResponceModel({required this.message, required this.isSuccess});
 }

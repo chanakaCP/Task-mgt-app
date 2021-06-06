@@ -11,9 +11,9 @@ class CustomFormField extends StatefulWidget {
   TextEditingController fieldController;
   IconData prefixIcon;
   TextInputType? inputType;
-  Color? fillColor;
   TextInputAction? inputAction;
   double? margin;
+  bool? isEditable;
 
   CustomFormField({
     required this.hintText,
@@ -21,10 +21,10 @@ class CustomFormField extends StatefulWidget {
     required this.isPass,
     required this.fieldController,
     required this.prefixIcon,
-    this.fillColor,
     this.inputType,
     this.inputAction = TextInputAction.done,
     this.margin,
+    this.isEditable,
   });
   @override
   _CustomFormFieldState createState() => _CustomFormFieldState();
@@ -47,6 +47,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: this.widget.margin ?? 4.w),
       child: TextFormField(
+          enabled: this.widget.isEditable ?? true,
           textInputAction: this.widget.inputAction,
           focusNode: textFieldFocusNode,
           cursorHeight: 2.h,

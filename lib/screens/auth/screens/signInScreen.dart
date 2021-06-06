@@ -41,7 +41,6 @@ class SignIn extends StatelessWidget {
                     child: Column(
                       children: [
                         CustomFormField(
-                          fillColor: Colors.black12,
                           hintText: "example@gmail.com",
                           lableText: "Email",
                           isPass: false,
@@ -50,7 +49,6 @@ class SignIn extends StatelessWidget {
                         ),
                         SizedBox(height: 2.5.h),
                         CustomFormField(
-                          fillColor: Colors.black12,
                           hintText: "********",
                           lableText: "Password",
                           isPass: true,

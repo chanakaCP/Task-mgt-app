@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/customLoadingWidget.dart';
 import 'package:task_mgt_app/customWidgets/customText.dart';
-import 'package:task_mgt_app/getX/controller/userListController.dart';
+import 'package:task_mgt_app/getX/controller/employeListController.dart';
 import 'package:task_mgt_app/customWidgets/listTiles/customUserListItem.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmployeeListViewBody extends StatelessWidget {
-  final UserListController userListController = Get.put(UserListController());
+  final EmployeListController userListController =
+      Get.find<EmployeListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class EmployeeListViewBody extends StatelessWidget {
           if (userListController.userlist.length == 0) {
             return Center(
               child: CustomContainer(
+                marginTop: 35.h,
                 child: CustomText(text: userListController.userEmptyText.value),
               ),
             );
@@ -64,6 +67,22 @@ class EmployeeListViewBody extends StatelessWidget {
                           i < userListController.userlist.length;
                           i++)
                         if (userListController.userlist[i].isApproved == false)
+                          CustomUserListItem(
+                            onTapItem: () {
+                              userListController
+                                  .onClickUser(userListController.userlist[i]);
+                            },
+                            user: userListController.userlist[i],
+                            tailIcon: Icons.arrow_forward_rounded,
+                            iconBGColor: Colors.blue[100],
+                          ),
+
+                    //  REMOVED USERS
+                    if (userListController.currentIntex.value == 4)
+                      for (var i = 0;
+                          i < userListController.userlist.length;
+                          i++)
+                        if (userListController.userlist[i].isRemoved == true)
                           CustomUserListItem(
                             onTapItem: () {
                               userListController

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
-import 'package:task_mgt_app/customWidgets/buttons/customIconButton.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,8 +15,7 @@ class AssignActivity extends StatelessWidget {
   final ActivityModel activity;
   AssignActivity({required this.isEdit, required this.activity});
 
-  final AssignActivityController assignActivityController =
-      Get.put(AssignActivityController());
+  final assignActivityController = Get.put(AssignActivityController());
 
   @override
   Widget build(BuildContext context) {

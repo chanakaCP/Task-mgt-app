@@ -87,7 +87,7 @@ class CustomButton extends StatelessWidget {
               CustomText(
                 text: title ?? "",
                 color: textColor,
-                size: fontsize ?? 3.h,
+                size: fontsize ?? 2.5.h,
                 weight: fontWeight ?? FontWeight.w500,
               ),
               (icon != null) ? SizedBox(width: 5.w) : Container(),

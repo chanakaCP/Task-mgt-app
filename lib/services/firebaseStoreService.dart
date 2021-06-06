@@ -9,10 +9,10 @@ import 'package:task_mgt_app/models/ResponceModel.dart';
 class FirebaseSotreServices {
   final firestoreInstance = FirebaseFirestore.instance;
   final UserService userService = Get.find<UserService>();
-  final AuthConst _con = AuthConst();
+  final LocalStore _localStore = LocalStore();
 
   Future<Stream<RegisterUser>> getUserData() async {
-    String userid = await _con.getUserid();
+    String userid = await _localStore.getUserid();
     return firestoreInstance
         .collection("users")
         .doc(userid)
@@ -25,11 +25,9 @@ class FirebaseSotreServices {
   getUserList() {
     return firestoreInstance
         .collection("users")
-        // .orderBy("createAt", descending: true)
         .snapshots()
         .map((QuerySnapshot query) {
       List<RegisterUser> retVal = [];
-
       query.docs.forEach((element) {
         retVal.add(RegisterUser.fromDocumentSnapshot(element));
       });
@@ -40,18 +38,41 @@ class FirebaseSotreServices {
   Future addActivity(ActivityModel activity) async {
     activity.createAt = DateTime.now();
     activity.createBy = userService.user.userId;
-    ResponceModel responce;
     try {
       await firestoreInstance
           .collection("activity")
           .doc()
           .set(activity.toMap());
 
-      responce = ResponceModel(message: "Success", isSuccess: true);
-      return responce;
+      return true;
     } catch (e) {
-      responce = ResponceModel(message: "Action failed", isSuccess: false);
-      return responce;
+      return false;
+    }
+  }
+
+  Future updateUser(RegisterUser user) async {
+    try {
+      await firestoreInstance
+          .collection("users")
+          .doc(user.userId)
+          .update(user.toUpdateMap());
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future removeUser(String userId) async {
+    try {
+      await firestoreInstance.collection("users").doc(userId).update({
+        "isAdmin": false,
+        "isApproved": false,
+      });
+
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

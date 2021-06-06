@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customBorderButton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:task_mgt_app/getX/controller/userListController.dart';
+import 'package:task_mgt_app/getX/controller/employeListController.dart';
 
 class EmployeeTypeButton extends StatelessWidget {
-  final UserListController userListController = Get.find<UserListController>();
+  final EmployeListController userListController =
+      Get.find<EmployeListController>();
   final String btnName;
   final int value;
 

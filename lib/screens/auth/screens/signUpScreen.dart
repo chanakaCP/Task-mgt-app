@@ -6,7 +6,6 @@ import 'package:task_mgt_app/customWidgets/customFormField.dart';
 import 'package:task_mgt_app/customWidgets/customText.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
 import 'package:task_mgt_app/getX/controller/authController.dart';
-import 'package:task_mgt_app/models/RegisterUser.dart';
 import 'package:task_mgt_app/screens/auth/screens/signInScreen.dart';
 
 class SignUp extends StatelessWidget {
@@ -43,7 +42,6 @@ class SignUp extends StatelessWidget {
                         child: Column(
                           children: [
                             CustomFormField(
-                              fillColor: Colors.black12,
                               hintText: "Jhon paul",
                               lableText: "Username",
                               isPass: false,
@@ -52,7 +50,6 @@ class SignUp extends StatelessWidget {
                             ),
                             SizedBox(height: 2.5.h),
                             CustomFormField(
-                              fillColor: Colors.black12,
                               hintText: "Software Engineer",
                               lableText: "Job Position",
                               isPass: false,
@@ -62,7 +59,6 @@ class SignUp extends StatelessWidget {
                             ),
                             SizedBox(height: 2.5.h),
                             CustomFormField(
-                              fillColor: Colors.black12,
                               hintText: "example@gmail.com",
                               lableText: "Email",
                               isPass: false,
@@ -71,7 +67,6 @@ class SignUp extends StatelessWidget {
                             ),
                             SizedBox(height: 2.5.h),
                             CustomFormField(
-                              fillColor: Colors.black12,
                               hintText: "********",
                               lableText: "Password",
                               isPass: true,
