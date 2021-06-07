@@ -5,15 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomFormField extends StatefulWidget {
   final AuthService _authService = Get.find<AuthService>();
-  String hintText;
-  String lableText;
-  bool isPass;
-  TextEditingController fieldController;
-  IconData prefixIcon;
-  TextInputType? inputType;
-  TextInputAction? inputAction;
-  double? margin;
-  bool? isEditable;
+  final String hintText;
+  final String lableText;
+  final bool isPass;
+  final TextEditingController fieldController;
+  final IconData prefixIcon;
+  final TextInputType? inputType;
+  final TextInputAction? inputAction;
+  final double? margin;
+  final bool? isEditable;
+  final int? maxLines;
 
   CustomFormField({
     required this.hintText,
@@ -22,6 +23,7 @@ class CustomFormField extends StatefulWidget {
     required this.fieldController,
     required this.prefixIcon,
     this.inputType,
+    this.maxLines,
     this.inputAction = TextInputAction.done,
     this.margin,
     this.isEditable,
@@ -47,6 +49,8 @@ class _CustomFormFieldState extends State<CustomFormField> {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: this.widget.margin ?? 4.w),
       child: TextFormField(
+          maxLines:
+              (this.widget.maxLines == null) ? null : this.widget.maxLines,
           enabled: this.widget.isEditable ?? true,
           textInputAction: this.widget.inputAction,
           focusNode: textFieldFocusNode,

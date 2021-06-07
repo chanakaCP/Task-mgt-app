@@ -4,7 +4,6 @@ import 'package:task_mgt_app/config/constants/authConstants.dart';
 import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
 import 'package:task_mgt_app/models/RegisterUser.dart';
-import 'package:task_mgt_app/models/ResponceModel.dart';
 
 class FirebaseSotreServices {
   final firestoreInstance = FirebaseFirestore.instance;
@@ -39,11 +38,13 @@ class FirebaseSotreServices {
     activity.createAt = DateTime.now();
     activity.createBy = userService.user.userId;
     try {
-      await firestoreInstance
-          .collection("activity")
-          .doc()
-          .set(activity.toMap());
-
+      DocumentReference ref = firestoreInstance.collection("activity").doc();
+      activity.id = ref.id;
+      await ref.set(activity.toMap());
+      // await firestoreInstance
+      //     .collection("activity")
+      //     .doc()
+      //     .set(activity.toMap());
       return true;
     } catch (e) {
       return false;
@@ -56,7 +57,6 @@ class FirebaseSotreServices {
           .collection("users")
           .doc(user.userId)
           .update(user.toUpdateMap());
-
       return true;
     } catch (e) {
       return false;
@@ -66,10 +66,30 @@ class FirebaseSotreServices {
   Future removeUser(String userId) async {
     try {
       await firestoreInstance.collection("users").doc(userId).update({
-        "isAdmin": false,
-        "isApproved": false,
+        "isRemoved": true,
       });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
+  getActivityList() {
+    return firestoreInstance
+        .collection("activity")
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<ActivityModel> retVal = [];
+      query.docs.forEach((docSnap) async {
+        retVal.add(ActivityModel.fromDocumentSnapshot(docSnap));
+      });
+      return retVal;
+    });
+  }
+
+  Future deleteActivity(String activityId) async {
+    try {
+      await firestoreInstance.collection("activity").doc(activityId).delete();
       return true;
     } catch (e) {
       return false;

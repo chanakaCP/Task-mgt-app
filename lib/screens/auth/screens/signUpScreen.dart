@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
-import 'package:task_mgt_app/customWidgets/customFormField.dart';
+import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
 import 'package:task_mgt_app/customWidgets/customText.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
 import 'package:task_mgt_app/getX/controller/authController.dart';
@@ -72,6 +72,7 @@ class SignUp extends StatelessWidget {
                               isPass: true,
                               fieldController: authController.passController,
                               prefixIcon: Icons.lock,
+                              maxLines: 1,
                             ),
                             SizedBox(height: 2.5.h),
                             Row(

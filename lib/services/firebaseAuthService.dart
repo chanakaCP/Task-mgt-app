@@ -21,7 +21,7 @@ class FirebaseAuthServices {
             .doc(response.user!.uid)
             .get()
             .then((value) => RegisterUser.fromDocumentSnapshotToLog(value));
-        // value["isApproved"]
+
         if (!result.isRemoved!) {
           if (result.isApproved!) {
             localStore.clearUserdata();
@@ -67,6 +67,8 @@ class FirebaseAuthServices {
           'position': user.position,
           'profileURL': user.profileURL,
           'createAt': DateTime.now(),
+          'taskAssigned': user.taskAssigned,
+          'taskCompleted': user.taskCompleted,
         });
         localStore.storeUser(user.toJson());
         return "Register Success";

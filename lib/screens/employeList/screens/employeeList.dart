@@ -9,8 +9,7 @@ import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/screens/employeList/widgets/employeeListViewBody.dart';
 
 class EmployeList extends StatelessWidget {
-  final EmployeListController userListController =
-      Get.put(EmployeListController());
+  final userListController = Get.put(EmployeListController());
   final UserService userService = Get.find<UserService>();
 
   @override

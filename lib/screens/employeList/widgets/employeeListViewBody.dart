@@ -16,7 +16,10 @@ class EmployeeListViewBody extends StatelessWidget {
     return Container(
       child: Obx(() {
         if (userListController.isLoading.value == true) {
-          return Center(child: CustomLoadingWidget());
+          return CustomContainer(
+            marginTop: 35.h,
+            child: CustomLoadingWidget(),
+          );
         } else {
           if (userListController.userlist.length == 0) {
             return Center(
@@ -50,7 +53,8 @@ class EmployeeListViewBody extends StatelessWidget {
                       for (var i = 0;
                           i < userListController.userlist.length;
                           i++)
-                        if (userListController.userlist[i].isApproved == true)
+                        if (userListController.userlist[i].isApproved! &&
+                            !userListController.userlist[i].isRemoved!)
                           CustomUserListItem(
                             onTapItem: () {
                               userListController
@@ -61,12 +65,13 @@ class EmployeeListViewBody extends StatelessWidget {
                             iconBGColor: Colors.blue[100],
                           ),
 
-                    //  ALL USERS
+                    //  PENDING USERS
                     if (userListController.currentIntex.value == 3)
                       for (var i = 0;
                           i < userListController.userlist.length;
                           i++)
-                        if (userListController.userlist[i].isApproved == false)
+                        if (!userListController.userlist[i].isApproved! &&
+                            !userListController.userlist[i].isRemoved!)
                           CustomUserListItem(
                             onTapItem: () {
                               userListController

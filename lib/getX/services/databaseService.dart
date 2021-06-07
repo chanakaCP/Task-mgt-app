@@ -42,4 +42,29 @@ class DatabaseService extends GetxService {
     }
     return responce;
   }
+
+  Future<ResponceModel> getActivityList() async {
+    ResponceModel responce;
+    final result = await _service.getActivityList();
+    print(result);
+    if (result == true) {
+      responce =
+          ResponceModel(message: "User has been Removed", isSuccess: true);
+    } else {
+      responce = ResponceModel(message: "Action failed", isSuccess: false);
+    }
+    return responce;
+  }
+
+  Future<ResponceModel> deleteActivity(String activityId) async {
+    ResponceModel responce;
+    final result = await _service.deleteActivity(activityId);
+    if (result == true) {
+      responce =
+          ResponceModel(message: "Activity has been Removed", isSuccess: true);
+    } else {
+      responce = ResponceModel(message: "Action failed", isSuccess: false);
+    }
+    return responce;
+  }
 }

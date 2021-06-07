@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customIconButton.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_mgt_app/customWidgets/customText.dart';
 import 'package:task_mgt_app/customWidgets/imageView/customImageView.dart';
-import 'package:task_mgt_app/models/RegisterUser.dart';
+import 'package:task_mgt_app/models/ActivityModel.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomUserListItem extends StatelessWidget {
-  final VoidCallback onTapItem;
-  final RegisterUser user;
-  final IconData tailIcon;
-  final Color? iconColor;
-  final Color? iconBGColor;
-  CustomUserListItem({
+class CustomTaskListItem extends StatelessWidget {
+  final VoidCallback onTapCard;
+  final VoidCallback onTapIcon;
+  final ActivityModel activity;
+
+  CustomTaskListItem({
     Key? key,
-    required this.onTapItem,
-    required this.user,
-    required this.tailIcon,
-    this.iconColor,
-    this.iconBGColor,
+    required this.onTapIcon,
+    required this.onTapCard,
+    required this.activity,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -36,7 +32,7 @@ class CustomUserListItem extends StatelessWidget {
         child: Row(
           children: [
             CustomImageView(
-              imageURL: user.profileURL.toString(),
+              imageURL: activity.assignedProfileURL.toString(),
               defaultImageURL: "assets/profile.png",
               imageHeight: 8.h,
               imageWidth: 8.h,
@@ -53,35 +49,35 @@ class CustomUserListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: user.name.toString(),
+                      text: activity.title.toString(),
                       weight: FontWeight.w500,
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 0.25.h),
                     CustomText(
-                      text: user.position.toString(),
+                      text: activity.assignedName.toString(),
                       weight: FontWeight.w400,
-                      overflow: TextOverflow.ellipsis,
                       size: 3.5.w,
+                      overflow: TextOverflow.ellipsis,
                     )
                   ],
                 ),
               ),
             ),
             CustomIconButton(
-              icon: tailIcon,
+              icon: Icons.edit_outlined,
               iconSize: 8.w,
-              bgColor: iconBGColor ?? Colors.white,
-              iconColor: iconColor ?? Colors.blue,
+              bgColor: Colors.blue[100],
+              iconColor: Colors.blue,
               callback: () {
-                onTapItem();
+                onTapIcon();
               },
             ),
           ],
         ),
       ),
       onTap: () {
-        onTapItem();
+        onTapCard();
       },
     );
   }

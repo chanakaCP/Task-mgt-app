@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
-import 'package:task_mgt_app/customWidgets/customFormField.dart';
+import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
 import 'package:task_mgt_app/customWidgets/customText.dart';
 import 'package:task_mgt_app/customWidgets/imageView/customImageView.dart';
 import 'package:task_mgt_app/getX/controller/employeeViewController.dart';
@@ -74,7 +74,10 @@ class EmployeView extends StatelessWidget {
                                           value: empController.isAproved.value,
                                           title: "Permission",
                                           onChange: (value) {
-                                            empController.changeApprovl(value);
+                                            if (!employe.isRemoved!) {
+                                              empController
+                                                  .changeApprovl(value);
+                                            }
                                           },
                                         )
                                       : Container(),
@@ -83,7 +86,10 @@ class EmployeView extends StatelessWidget {
                                     value: empController.isAdmin.value,
                                     title: "Admin",
                                     onChange: (value) {
-                                      if (userService.user.isAdmin!) {
+                                      if (userService.userData.value.userId !=
+                                              employe.userId &&
+                                          !employe.isRemoved! &&
+                                          userService.userData.value.isAdmin!) {
                                         empController.changePermission(value);
                                       }
                                     },

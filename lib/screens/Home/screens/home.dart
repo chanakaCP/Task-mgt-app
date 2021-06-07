@@ -6,43 +6,40 @@ import 'package:task_mgt_app/customWidgets/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/customLoadingWidget.dart';
 import 'package:task_mgt_app/getX/controller/homeController.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:task_mgt_app/screens/Home/screens/homeBody.dart';
+import 'package:task_mgt_app/getX/services/userService.dart';
+import 'package:task_mgt_app/models/ActivityModel.dart';
+import 'package:task_mgt_app/screens/Home/widgets/homeBody.dart';
 import 'package:task_mgt_app/screens/employeList/screens/employeeList.dart';
 import 'package:task_mgt_app/screens/manageActivity/screens/manageActivity.dart';
 
 class Home extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
+  final UserService userService = Get.put(UserService());
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (homeController.user!.value.isAdmin != null) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            onPressed: () {
-              Get.to(EmployeList());
-              // Get.to(ManageActivity(isEdit: true));
-            },
-            child: Icon(Icons.add),
-          ),
-          // (homeController.user!.value.isAdmin! == true)
-          //     ? FloatingActionButton(
-          //         backgroundColor: Colors.blue,
-          //         foregroundColor: Colors.white,
-          //         onPressed: () {
-          //           Get.to(EmployeList());
-          //           // Get.to(ManageActivity(isEdit: true));
-          //         },
-          //         child: Icon(Icons.add),
-          //       )
-          //     : Container(),
+          backgroundColor: Colors.white,
+          floatingActionButton: (homeController.user!.value.isAdmin! == true)
+              ? FloatingActionButton(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  onPressed: () {
+                    // Get.to(EmployeList());
+                    Get.to(ManageActivity(
+                      isEdit: false,
+                      activity: ActivityModel(),
+                    ));
+                  },
+                  child: Icon(Icons.add),
+                )
+              : Container(),
           appBar: CustomAppBar(
-            title: "Home",
+            title: "Activities",
             drawerCallback: () {},
           ),
-          // endDrawer: CustomDrawer(),
           body: Column(
             children: [
               CustomContainer(
@@ -87,7 +84,7 @@ class Home extends StatelessWidget {
                 ),
               ),
               Wrap(children: [
-                Container(
+                CustomContainer(
                   height: 82.25.h,
                   child: ListView.builder(
                     itemCount: 1,
@@ -103,14 +100,12 @@ class Home extends StatelessWidget {
       } else {
         return Scaffold(
           appBar: CustomAppBar(
-            title: "Home",
+            title: "Activities",
             drawerCallback: () {},
           ),
-          body: Center(
-            child: CustomContainer(
-              margin: EdgeInsets.symmetric(horizontal: 25.w),
-              child: CustomLoadingWidget(),
-            ),
+          body: CustomContainer(
+            marginTop: 35.h,
+            child: Center(child: CustomLoadingWidget()),
           ),
         );
       }

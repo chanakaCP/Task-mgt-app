@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_mgt_app/config/storage/storage.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/customText.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:task_mgt_app/getX/services/authService.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   CustomAppBar(
@@ -31,9 +28,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               size: 7.5.w,
             ),
             onTap: () {
-              AuthService().signOut();
-              Storage().deleteValue("id");
-              Get.offAllNamed("/signIn");
+              // AuthService().signOut();
+              // Storage().deleteValue("id");
+              // Get.offAllNamed("/signIn");
               // drawerCallback();
             },
           ),

@@ -130,7 +130,7 @@ class RegisterUser {
       isAdmin: snapshot['isAdmin'],
       createAt: snapshot['createAt'].toDate(),
       userId: snapshot['userId'],
-      taskAssigned: snapshot['taskAssigned'],
+      taskAssigned: snapshot['taskAssigned'] as int,
       taskCompleted: snapshot['taskCompleted'] as int,
     );
   }

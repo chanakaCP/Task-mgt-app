@@ -41,37 +41,42 @@ class AuthController extends GetxController {
   }
 
   void registerUser() {
-    RegisterUser user = RegisterUser.withData(
-      name: nameController.text.trim(),
-      email: emailController.text.trim(),
-      position: positionController.text.trim(),
-      password: passController.text.trim(),
-      isApproved: false,
-      isAdmin: radioValue.value == 0 ? false : true,
-      profileURL: "default",
-      taskAssigned: 0,
-      taskCompleted: 0,
-      createAt: DateTime.now(),
-    );
-
-    if (signInFormKey.currentState!.validate()) {
+    if (signUpformKey.currentState!.validate()) {
       customDialog.showLoadingDialog("Please Wait");
-
+      RegisterUser user = RegisterUser.withData(
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        position: positionController.text.trim(),
+        password: passController.text.trim(),
+        isApproved: false,
+        isAdmin: radioValue.value == 0 ? false : true,
+        profileURL: "default",
+        taskAssigned: 0,
+        taskCompleted: 0,
+        createAt: DateTime.now(),
+      );
       _authService.register(user).then(
         (value) {
           if (value == "Register Success") {
-            print("succes");
-            Get.back();
+            Get.offAll(SignIn());
             CustomDialog().success(
                 msg: "Successfully Registered. \nPlease vait for approval");
+            user = RegisterUser();
+            clearFields();
           } else {
-            print("failed");
             Get.back();
             CustomDialog().failed(msg: value);
           }
         },
       );
     }
+  }
+
+  void clearFields() {
+    emailController.text = "";
+    passController.text = "";
+    nameController.text = "";
+    positionController.text = "";
   }
 
   void handleRadioValueChange(int val) {

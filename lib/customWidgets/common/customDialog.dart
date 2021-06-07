@@ -7,9 +7,24 @@ import '../customText.dart';
 class CustomDialog {
   void success({required String msg}) {
     return Get.snackbar(
-      "Success",
-      msg,
-      icon: Icon(Icons.check),
+      "",
+      "",
+      titleText: CustomText(
+        text: "SUCCESS",
+        color: Colors.green[900],
+        weight: FontWeight.w700,
+      ),
+      messageText: CustomText(
+        text: msg,
+        size: 3.w,
+        color: Colors.green[900],
+        weight: FontWeight.w500,
+      ),
+      padding: EdgeInsets.fromLTRB(15.w, 2.5.h, 5.w, 2.5.h),
+      icon: Icon(
+        Icons.check_circle,
+        size: 15.w,
+      ),
       backgroundColor: Colors.lightGreen[300],
       snackPosition: SnackPosition.BOTTOM,
       isDismissible: true,
@@ -20,10 +35,25 @@ class CustomDialog {
 
   void failed({required String msg}) {
     return Get.snackbar(
-      "Failed",
-      msg,
-      icon: Icon(Icons.close),
-      backgroundColor: Colors.red,
+      "",
+      "",
+      titleText: CustomText(
+        text: "FAILED",
+        color: Colors.green[900],
+        weight: FontWeight.w700,
+      ),
+      messageText: CustomText(
+        text: msg,
+        size: 3.w,
+        color: Colors.green[900],
+        weight: FontWeight.w500,
+      ),
+      padding: EdgeInsets.fromLTRB(15.w, 2.5.h, 5.w, 2.5.h),
+      icon: Icon(
+        Icons.close_rounded,
+        size: 15.w,
+      ),
+      backgroundColor: Colors.lightGreen[300],
       snackPosition: SnackPosition.BOTTOM,
       isDismissible: true,
       margin: EdgeInsets.all(0),
@@ -31,23 +61,27 @@ class CustomDialog {
     );
   }
 
-  void loading({required String msg}) {
-    return Get.snackbar(
-      "Loading",
-      msg,
-      icon: Icon(Icons.watch_later_outlined),
-      backgroundColor: Colors.grey[300],
-      snackPosition: SnackPosition.BOTTOM,
-      isDismissible: false,
-    );
-  }
-
   void notify({required String msg}) {
     return Get.snackbar(
-      "Notification",
-      msg,
-      icon: Icon(Icons.notifications),
-      backgroundColor: Colors.blue[200],
+      "",
+      "",
+      titleText: CustomText(
+        text: "NOTIFICATION",
+        color: Colors.blue[200],
+        weight: FontWeight.w700,
+      ),
+      messageText: CustomText(
+        text: msg,
+        size: 3.w,
+        color: Colors.green[900],
+        weight: FontWeight.w500,
+      ),
+      padding: EdgeInsets.fromLTRB(15.w, 2.5.h, 5.w, 2.5.h),
+      icon: Icon(
+        Icons.notifications_on_outlined,
+        size: 15.w,
+      ),
+      backgroundColor: Colors.lightGreen[300],
       snackPosition: SnackPosition.BOTTOM,
       isDismissible: true,
       margin: EdgeInsets.all(0),

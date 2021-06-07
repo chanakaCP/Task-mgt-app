@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/common/customDialog.dart';
-import 'package:task_mgt_app/customWidgets/common/customDialog.dart';
 import 'package:task_mgt_app/getX/services/databaseService.dart';
 import 'package:task_mgt_app/models/RegisterUser.dart';
 

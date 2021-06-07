@@ -11,9 +11,8 @@ import 'package:task_mgt_app/models/ActivityModel.dart';
 import 'package:task_mgt_app/customWidgets/listTiles/customUserListItem.dart';
 
 class AssignActivity extends StatelessWidget {
-  final bool isEdit;
   final ActivityModel activity;
-  AssignActivity({required this.isEdit, required this.activity});
+  AssignActivity({required this.activity});
 
   final assignActivityController = Get.put(AssignActivityController());
 
@@ -25,7 +24,9 @@ class AssignActivity extends StatelessWidget {
       },
       child: Scaffold(
         appBar: CustomAppBar(
-          title: isEdit ? "Re Assgin users" : "Assgin users",
+          title: (activity.assignedTo != null)
+              ? "Re Assgin users"
+              : "Assgin users",
           isBack: true,
           drawerCallback: () {},
         ),
@@ -41,49 +42,57 @@ class AssignActivity extends StatelessWidget {
             assignActivityController.addActivity(activity);
           },
         ),
-        body: Obx(() {
-          if (assignActivityController.isLoading.value == true) {
-            return Center(child: CustomLoadingWidget());
-          } else {
-            if (assignActivityController.userlist.length == 0) {
-              return Center(
-                child: CustomContainer(
-                  child: CustomText(text: "No Activity found..."),
-                ),
-              );
+        body: GetX<AssignActivityController>(
+          initState: (_) {
+            assignActivityController.initialize(activity);
+          },
+          builder: (_) {
+            if (assignActivityController.isLoading.value == true) {
+              return Center(child: CustomLoadingWidget());
             } else {
-              return SingleChildScrollView(
-                child: CustomContainer(
-                  padding: EdgeInsets.only(
-                    top: 2.h,
+              if (assignActivityController.userlist.length == 0) {
+                return Center(
+                  child: CustomContainer(
+                    child: CustomText(text: "No Activity found..."),
                   ),
-                  child: Column(
-                    children: [
-                      for (var i = 0;
-                          i < assignActivityController.userlist.length;
-                          i++)
-                        if (assignActivityController.userlist[i].isApproved ==
-                            true)
-                          CustomUserListItem(
-                            onTapItem: () {
-                              assignActivityController.onSelectUser(
-                                  assignActivityController.userlist[i]);
-                            },
-                            tailIcon: (assignActivityController
-                                        .selectedUserId.value ==
-                                    assignActivityController.userlist[i].userId
-                                        .toString())
-                                ? Icons.check_box_rounded
-                                : Icons.check_box_outline_blank_rounded,
-                            user: assignActivityController.userlist[i],
-                          ),
-                    ],
+                );
+              } else {
+                return SingleChildScrollView(
+                  child: CustomContainer(
+                    padding: EdgeInsets.only(
+                      top: 2.h,
+                    ),
+                    child: Column(
+                      children: [
+                        for (var i = 0;
+                            i < assignActivityController.userlist.length;
+                            i++)
+                          if (assignActivityController
+                                  .userlist[i].isApproved! &&
+                              !assignActivityController.userlist[i].isRemoved!)
+                            CustomUserListItem(
+                              onTapItem: () {
+                                assignActivityController.onSelectUser(
+                                    assignActivityController.userlist[i],
+                                    activity);
+                              },
+                              tailIcon: (assignActivityController
+                                          .selectedUserId.value ==
+                                      assignActivityController
+                                          .userlist[i].userId
+                                          .toString())
+                                  ? Icons.check_box_rounded
+                                  : Icons.check_box_outline_blank_rounded,
+                              user: assignActivityController.userlist[i],
+                            ),
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             }
-          }
-        }),
+          },
+        ),
       ),
     );
   }
