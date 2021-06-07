@@ -18,6 +18,7 @@ class AssignActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(activity.toMap());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();

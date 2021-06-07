@@ -44,6 +44,7 @@ class HomeBody extends StatelessWidget {
                           },
                           onTapIcon: () {},
                         ),
+                    SizedBox(height: 10.h),
                   ],
                 ),
               ),

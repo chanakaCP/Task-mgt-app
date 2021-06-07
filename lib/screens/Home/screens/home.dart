@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customBorderButton.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
+import 'package:task_mgt_app/screens/drawer/screens/customDrawer.dart';
 import 'package:task_mgt_app/customWidgets/customLoadingWidget.dart';
 import 'package:task_mgt_app/getX/controller/homeController.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
 import 'package:task_mgt_app/screens/Home/widgets/homeBody.dart';
-import 'package:task_mgt_app/screens/employeList/screens/employeeList.dart';
 import 'package:task_mgt_app/screens/manageActivity/screens/manageActivity.dart';
 
 class Home extends StatelessWidget {
@@ -27,7 +27,6 @@ class Home extends StatelessWidget {
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
                   onPressed: () {
-                    // Get.to(EmployeList());
                     Get.to(ManageActivity(
                       isEdit: false,
                       activity: ActivityModel(),
@@ -38,8 +37,12 @@ class Home extends StatelessWidget {
               : Container(),
           appBar: CustomAppBar(
             title: "Activities",
-            drawerCallback: () {},
+            drawerCallback: () {
+              Scaffold.of(context).openDrawer();
+            },
           ),
+          drawerEnableOpenDragGesture: false,
+          endDrawer: CustomDrawer(),
           body: Column(
             children: [
               CustomContainer(
@@ -93,7 +96,7 @@ class Home extends StatelessWidget {
                     },
                   ),
                 ),
-              ])
+              ]),
             ],
           ),
         );
@@ -104,7 +107,6 @@ class Home extends StatelessWidget {
             drawerCallback: () {},
           ),
           body: CustomContainer(
-            marginTop: 35.h,
             child: Center(child: CustomLoadingWidget()),
           ),
         );

@@ -4,6 +4,7 @@ import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customBorderButton.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:task_mgt_app/screens/drawer/screens/customDrawer.dart';
 import 'package:task_mgt_app/getX/controller/employeListController.dart';
 import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/screens/employeList/widgets/employeeListViewBody.dart';
@@ -23,8 +24,12 @@ class EmployeList extends StatelessWidget {
         appBar: CustomAppBar(
           title: "Employes",
           isBack: true,
-          drawerCallback: () {},
+          drawerCallback: () {
+            Scaffold.of(context).openDrawer();
+          },
         ),
+        drawerEnableOpenDragGesture: false,
+        endDrawer: CustomDrawer(),
         body: Obx(() {
           return Column(
             children: [

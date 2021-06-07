@@ -34,19 +34,17 @@ class FirebaseSotreServices {
     });
   }
 
-  Future addActivity(ActivityModel activity) async {
+  Future setActivity(ActivityModel activity) async {
     activity.createAt = DateTime.now();
     activity.createBy = userService.user.userId;
     try {
-      DocumentReference ref = firestoreInstance.collection("activity").doc();
+      DocumentReference ref =
+          firestoreInstance.collection("activity").doc(activity.id);
       activity.id = ref.id;
-      await ref.set(activity.toMap());
-      // await firestoreInstance
-      //     .collection("activity")
-      //     .doc()
-      //     .set(activity.toMap());
+      await ref.set(activity.toMap(), SetOptions(merge: true));
       return true;
     } catch (e) {
+      print(e.toString());
       return false;
     }
   }

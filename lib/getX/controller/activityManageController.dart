@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/config/constants/dropdownConst.dart';
@@ -16,23 +15,28 @@ class ActivityManageController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  final dateController = TextEditingController();
   Rx<String> priority = "Low".obs;
+  Rx<String> status = "To Do".obs;
   DateTime pickedDate = DateTime.now();
 
-  List<DropdownMenuItem<String>> dropdownList = DropdownConst().priority;
-  RxString dateTime = "none".obs;
+  List<DropdownMenuItem<String>> priorityDropdownList =
+      DropdownConst().priority;
+  List<DropdownMenuItem<String>> statusDropdownList = DropdownConst().status;
+  // RxString dateTime = "none".obs;
   Rx<Color> datePickColor = Colors.blueGrey.obs;
 
   onClickNext(ActivityModel activity) {
     if (formKey.currentState!.validate()) {
-      if (dateTime.value == "none") {
+      if (dateController.text.isEmpty) {
         datePickColor.value = Colors.red;
-        dateTime.value = "Please pick a Deadline";
+        dateController.text = "Please pick a Deadline";
       } else {
         activity.title = titleController.text.trim();
         activity.description = descriptionController.text.trim();
         activity.endAt = pickedDate;
         activity.priority = priority.value;
+        activity.status = status.value;
         if (activity.id == null) {
           activity.status = "To Do";
           activity.createAt = DateTime.now();
@@ -50,22 +54,21 @@ class ActivityManageController extends GetxController {
       titleController.text = activity.title!;
       descriptionController.text = activity.description!;
       priority.value = activity.priority!;
+      status.value = activity.status!;
       pickedDate = activity.endAt!;
-      dateTime.value =
-          " Deadline Date : ${(activity.endAt!.toUtc()).day} / ${(activity.endAt!.toUtc()).month} / ${(activity.endAt!.toUtc()).year} ";
+      dateController.text =
+          "${(activity.endAt!.toUtc()).day + 1} / ${(activity.endAt!.toUtc()).month} / ${(activity.endAt!.toUtc()).year} ";
     } else {
       titleController.text = "";
       descriptionController.text = "";
-      dateTime.value = "Pick a deadline";
-
-      priority.value = "Low";
+      dateController.text = "Pick a deadline";
     }
     datePickColor = Colors.blueGrey.obs;
   }
 
   onDateSelect(DateTime date) {
-    dateTime.value =
-        " Deadline Date : ${(date.toUtc()).day} / ${(date.toUtc()).month} / ${(date.toUtc()).year} ";
+    dateController.text =
+        "${(date.toUtc()).day + 1} / ${(date.toUtc()).month} / ${(date.toUtc()).year} ";
     pickedDate = date;
     datePickColor.value = Colors.blueGrey;
   }

@@ -40,7 +40,7 @@ class CustomTaskListItem extends StatelessWidget {
               containerRadius: BorderRadius.circular(10),
               imageRadius: BorderRadius.circular(10),
             ),
-            SizedBox(width: 5.w),
+            SizedBox(width: 3.w),
             Expanded(
               child: CustomContainer(
                 alignment: Alignment.centerLeft,
@@ -52,20 +52,24 @@ class CustomTaskListItem extends StatelessWidget {
                       text: activity.title.toString(),
                       weight: FontWeight.w500,
                       overflow: TextOverflow.ellipsis,
+                      size: 4.5.w,
+                      color: Colors.black87,
                     ),
                     SizedBox(height: 0.25.h),
                     CustomText(
-                      text: activity.assignedName.toString(),
+                      text: "Assigned to : " + activity.assignedName.toString(),
                       weight: FontWeight.w400,
                       size: 3.5.w,
+                      color: Colors.black54,
                       overflow: TextOverflow.ellipsis,
                     )
                   ],
                 ),
               ),
             ),
+            SizedBox(width: 2.5.w),
             CustomIconButton(
-              icon: Icons.edit_outlined,
+              icon: Icons.add_rounded,
               iconSize: 8.w,
               bgColor: Colors.blue[100],
               iconColor: Colors.blue,

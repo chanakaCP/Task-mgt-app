@@ -22,18 +22,21 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         CustomContainer(
           paddingRight: 5.w,
-          child: InkWell(
-            child: Icon(
-              Icons.menu_rounded,
-              size: 7.5.w,
-            ),
-            onTap: () {
-              // AuthService().signOut();
-              // Storage().deleteValue("id");
-              // Get.offAllNamed("/signIn");
-              // drawerCallback();
-            },
-          ),
+          child: Builder(builder: (BuildContext context) {
+            return InkWell(
+              child: Icon(
+                Icons.menu_rounded,
+                size: 7.5.w,
+              ),
+              onTap: () {
+                Scaffold.of(context).openEndDrawer();
+                // AuthService().signOut();
+                // Storage().deleteValue("id");
+                // Get.offAllNamed("/signIn");
+                // drawerCallback();
+              },
+            );
+          }),
         )
       ],
       backgroundColor: Colors.blue,

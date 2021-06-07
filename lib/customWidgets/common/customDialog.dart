@@ -67,7 +67,7 @@ class CustomDialog {
       "",
       titleText: CustomText(
         text: "NOTIFICATION",
-        color: Colors.blue[200],
+        color: Colors.green[900],
         weight: FontWeight.w700,
       ),
       messageText: CustomText(

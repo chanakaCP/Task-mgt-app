@@ -9,13 +9,12 @@ class DatabaseService extends GetxService {
 
   Future<ResponceModel> addActivity(ActivityModel activity) async {
     ResponceModel responce;
-    final result = await _service.addActivity(activity);
+    final result = await _service.setActivity(activity);
     if (result == true) {
       responce = ResponceModel(message: "Activity Updated", isSuccess: true);
     } else {
       responce = ResponceModel(message: "Action failed", isSuccess: false);
     }
-    print(responce.isSuccess);
     return responce;
   }
 
@@ -46,7 +45,6 @@ class DatabaseService extends GetxService {
   Future<ResponceModel> getActivityList() async {
     ResponceModel responce;
     final result = await _service.getActivityList();
-    print(result);
     if (result == true) {
       responce =
           ResponceModel(message: "User has been Removed", isSuccess: true);

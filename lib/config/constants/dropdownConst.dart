@@ -15,4 +15,19 @@ class DropdownConst {
       child: Text("High"),
     )
   ];
+
+  final List<DropdownMenuItem<String>> status = [
+    DropdownMenuItem(
+      value: "To Do",
+      child: Text("To Do"),
+    ),
+    DropdownMenuItem(
+      value: "In Progress",
+      child: Text("In Progress"),
+    ),
+    DropdownMenuItem(
+      value: "Done",
+      child: Text("Done"),
+    )
+  ];
 }

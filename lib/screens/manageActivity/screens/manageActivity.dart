@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
-import 'package:task_mgt_app/customWidgets/buttons/customIconButton.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
 import 'package:task_mgt_app/customWidgets/customContainer.dart';
-import 'package:task_mgt_app/customWidgets/customDropdown.dart';
+import 'package:task_mgt_app/customWidgets/formComponent/customDatePickField.dart';
+import 'package:task_mgt_app/customWidgets/formComponent/customDropdownFormField.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
 import 'package:task_mgt_app/getX/controller/activityManageController.dart';
+import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
+import 'package:task_mgt_app/screens/manageActivity/widgets/customActivityDetail.dart';
 
 class ManageActivity extends StatelessWidget {
   final bool isEdit;
   final ActivityModel activity;
   ManageActivity({required this.isEdit, required this.activity});
+  final UserService userService = Get.find<UserService>();
 
   final activityMgtController = Get.put(ActivityManageController());
 
@@ -35,7 +37,7 @@ class ManageActivity extends StatelessWidget {
         body: SingleChildScrollView(
           child: CustomContainer(
             padding: EdgeInsets.only(
-              top: 5.h,
+              top: 2.5.h,
             ),
             child: Form(
               key: activityMgtController.formKey,
@@ -46,7 +48,43 @@ class ManageActivity extends StatelessWidget {
                 builder: (_) {
                   return Column(
                     children: [
+                      CustomActivityDetail(
+                        header: "Created by",
+                        profileURL:
+                            userService.userData.value.profileURL.toString(),
+                        position:
+                            userService.userData.value.position.toString(),
+                        user: userService.userData.value.name.toString(),
+                        dateText: (isEdit)
+                            ? "Assigned : ${(activity.createAt!.toUtc()).day} / ${(activity.createAt!.toUtc()).month} / ${(activity.createAt!.toUtc()).year} "
+                            : "Assigned : ${(DateTime.now().toUtc()).day} / ${(DateTime.now().toUtc()).month} / ${(DateTime.now().toUtc()).year} ",
+                      ),
+                      (isEdit)
+                          ? CustomContainer(
+                              marginTop: 2.5.h,
+                              child: CustomActivityDetail(
+                                header: "Assign to",
+                                profileURL:
+                                    activity.assignedProfileURL.toString(),
+                                position: activity.assignedTo.toString(),
+                                user: activity.assignedName.toString(),
+                                dateText:
+                                    "Due on : ${(activity.endAt!.toUtc()).day} / ${(activity.endAt!.toUtc()).month} / ${(activity.endAt!.toUtc()).year} ",
+                              ),
+                            )
+                          : Container(),
                       SizedBox(height: 5.h),
+                      CustomDropdownField(
+                        lableText: "Status",
+                        prefixIcon: Icons.settings_backup_restore_outlined,
+                        list: activityMgtController.statusDropdownList,
+                        initialValue: (isEdit) ? activity.status : null,
+                        isEditable: activityMgtController.isEditable(),
+                        onChange: (value) {
+                          activityMgtController.status.value = value;
+                        },
+                      ),
+                      SizedBox(height: 2.5.h),
                       CustomFormField(
                         hintText: "Activity Title",
                         lableText: "Activity Title",
@@ -55,7 +93,7 @@ class ManageActivity extends StatelessWidget {
                         prefixIcon: Icons.keyboard,
                         isEditable: activityMgtController.isEditable(),
                       ),
-                      SizedBox(height: 5.h),
+                      SizedBox(height: 2.5.h),
                       CustomFormField(
                         hintText: "Activity Description",
                         lableText: "Activity Description",
@@ -66,72 +104,35 @@ class ManageActivity extends StatelessWidget {
                         maxLines: null,
                         isEditable: activityMgtController.isEditable(),
                       ),
-                      SizedBox(height: 5.h),
-                      CustomContainer(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: (activityMgtController.dateTime.value ==
-                                      "none")
-                                  ? "Pick a deadline"
-                                  : activityMgtController.dateTime.value,
-                              color: activityMgtController.datePickColor.value,
-                              weight: FontWeight.w700,
-                              size: 4.5.sp,
-                            ),
-                            CustomIconButton(
-                              icon: Icons.date_range_outlined,
-                              width: 10.w,
-                              height: 10.w,
-                              iconSize: 5.w,
-                              callback: () async {
-                                if (activityMgtController.isEditable()) {
-                                  DateTime? _date = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now(),
-                                    lastDate: DateTime(DateTime.now().year + 1),
-                                  );
-                                  if (_date != null) {
-                                    activityMgtController.onDateSelect(_date);
-                                  }
-                                }
-                              },
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 2.5.h),
+                      CustomDatePickField(
+                        lableText: "Due Date",
+                        fieldController: activityMgtController.dateController,
+                        isEditable: activityMgtController.isEditable(),
+                        onTap: () async {
+                          if (activityMgtController.isEditable()) {
+                            DateTime? _date = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(DateTime.now().year + 1),
+                            );
+                            if (_date != null) {
+                              activityMgtController.onDateSelect(_date);
+                            }
+                          }
+                        },
                       ),
-                      SizedBox(height: 5.h),
-                      CustomContainer(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomContainer(
-                              alignment: Alignment.centerLeft,
-                              paddingRight: 5.w,
-                              child: CustomText(
-                                text: "Select Priority",
-                                color: Colors.blueGrey,
-                                weight: FontWeight.w700,
-                                size: 4.5.sp,
-                              ),
-                            ),
-                            Container(
-                              width: 52.5.w,
-                              child: CustomDropDown(
-                                list: activityMgtController.dropdownList,
-                                initialValue: activityMgtController
-                                    .dropdownList.first.value,
-                                onChange: (value) {
-                                  activityMgtController.priority.value = value;
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 2.5.h),
+                      CustomDropdownField(
+                        lableText: "Priority",
+                        prefixIcon: Icons.format_list_numbered_rounded,
+                        list: activityMgtController.priorityDropdownList,
+                        initialValue: (isEdit) ? activity.priority : null,
+                        isEditable: activityMgtController.isEditable(),
+                        onChange: (value) {
+                          activityMgtController.priority.value = value;
+                        },
                       ),
                       SizedBox(height: 5.h),
                       (activityMgtController.isEditable())
