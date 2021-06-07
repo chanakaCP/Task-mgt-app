@@ -10,7 +10,6 @@ class EmployeeViewController extends GetxController {
   final DatabaseService dbService = Get.put(DatabaseService());
   RegisterUser updateUserModel = RegisterUser();
 
-  final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final positionController = TextEditingController();
   final emailController = TextEditingController();
@@ -53,29 +52,27 @@ class EmployeeViewController extends GetxController {
   }
 
   updateUser() {
-    if (formKey.currentState!.validate()) {
-      if (isChanged()) {
-        CustomDialog().showLoadingDialog("Please Wait...");
-        updateUserModel.isAdmin = isAdmin.value;
-        updateUserModel.isApproved = isAproved.value;
-        updateUserModel.name = nameController.text.trim();
-        updateUserModel.position = positionController.text.trim();
-        dbService.updateUser(updateUserModel).then((value) {
-          if (value.isSuccess) {
+    if (isChanged()) {
+      CustomDialog().showLoadingDialog("Please Wait...");
+      updateUserModel.isAdmin = isAdmin.value;
+      updateUserModel.isApproved = isAproved.value;
+      updateUserModel.name = nameController.text.trim();
+      updateUserModel.position = positionController.text.trim();
+      dbService.updateUser(updateUserModel).then((value) {
+        if (value.isSuccess) {
+          Get.back();
+          CustomDialog().success(msg: value.message);
+          Timer(Duration(milliseconds: 1250), () {
             Get.back();
-            CustomDialog().success(msg: value.message);
-            Timer(Duration(milliseconds: 1250), () {
-              Get.back();
-              Get.back();
-            });
-          } else {
             Get.back();
-            CustomDialog().failed(msg: value.message);
-          }
-        });
-      } else {
-        CustomDialog().notify(msg: "No changes to update...");
-      }
+          });
+        } else {
+          Get.back();
+          CustomDialog().failed(msg: value.message);
+        }
+      });
+    } else {
+      CustomDialog().notify(msg: "No changes to update...");
     }
   }
 

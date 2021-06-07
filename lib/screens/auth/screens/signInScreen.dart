@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
 import 'package:task_mgt_app/getX/controller/authController.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

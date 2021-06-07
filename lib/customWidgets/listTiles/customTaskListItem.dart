@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customIconButton.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/customWidgets/imageView/customImageView.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,7 +69,7 @@ class CustomTaskListItem extends StatelessWidget {
             ),
             SizedBox(width: 2.5.w),
             CustomIconButton(
-              icon: Icons.add_rounded,
+              icon: Icons.restore_outlined,
               iconSize: 8.w,
               bgColor: Colors.blue[100],
               iconColor: Colors.blue,

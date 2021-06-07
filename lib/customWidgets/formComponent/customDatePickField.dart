@@ -6,17 +6,22 @@ class CustomDatePickField extends StatelessWidget {
   final TextEditingController fieldController;
   final VoidCallback onTap;
   final bool? isEditable;
+  final EdgeInsets? margin;
+  final EdgeInsets? contentPadding;
+
   CustomDatePickField({
     required this.lableText,
     required this.fieldController,
     required this.onTap,
+    this.margin,
+    this.contentPadding,
     this.isEditable,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4.w),
+      margin: margin ?? EdgeInsets.symmetric(horizontal: 4.w),
       child: TextFormField(
         readOnly: true,
         onTap: () {
@@ -37,7 +42,8 @@ class CustomDatePickField extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          contentPadding: EdgeInsets.only(left: 7.5.w, top: 4.h),
+          contentPadding:
+              contentPadding ?? EdgeInsets.only(left: 7.5.w, top: 4.h),
           labelText: this.lableText,
           labelStyle: TextStyle(
             color: Colors.blueGrey,

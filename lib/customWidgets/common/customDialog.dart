@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../customText.dart';
+import '../text/customText.dart';
 
 class CustomDialog {
   void success({required String msg}) {
@@ -82,6 +82,34 @@ class CustomDialog {
         size: 15.w,
       ),
       backgroundColor: Colors.lightGreen[300],
+      snackPosition: SnackPosition.BOTTOM,
+      isDismissible: true,
+      margin: EdgeInsets.all(0),
+      borderRadius: 0,
+    );
+  }
+
+  void warning({required String msg}) {
+    return Get.snackbar(
+      "",
+      "",
+      titleText: CustomText(
+        text: "WARNING",
+        color: Colors.black,
+        weight: FontWeight.w700,
+      ),
+      messageText: CustomText(
+        text: msg,
+        size: 3.w,
+        color: Colors.black,
+        weight: FontWeight.w500,
+      ),
+      padding: EdgeInsets.fromLTRB(15.w, 2.5.h, 5.w, 2.5.h),
+      icon: Icon(
+        Icons.warning_amber_rounded,
+        size: 15.w,
+      ),
+      backgroundColor: Colors.orange[400],
       snackPosition: SnackPosition.BOTTOM,
       isDismissible: true,
       margin: EdgeInsets.all(0),

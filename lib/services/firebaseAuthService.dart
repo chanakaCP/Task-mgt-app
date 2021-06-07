@@ -106,7 +106,6 @@ class FirebaseAuthServices {
       localStore.clearUserdata();
       return await _auth.signOut();
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }

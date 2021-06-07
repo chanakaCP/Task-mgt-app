@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customBorderButton.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_mgt_app/screens/drawer/screens/customDrawer.dart';
 import 'package:task_mgt_app/getX/controller/employeListController.dart';

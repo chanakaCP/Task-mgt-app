@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/container/customCardWidget.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customDatePickField.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customDropdownFormField.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
@@ -36,9 +37,6 @@ class ManageActivity extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: CustomContainer(
-            padding: EdgeInsets.only(
-              top: 2.5.h,
-            ),
             child: Form(
               key: activityMgtController.formKey,
               child: GetX<ActivityManageController>(
@@ -60,87 +58,94 @@ class ManageActivity extends StatelessWidget {
                             : "Assigned : ${(DateTime.now().toUtc()).day} / ${(DateTime.now().toUtc()).month} / ${(DateTime.now().toUtc()).year} ",
                       ),
                       (isEdit)
-                          ? CustomContainer(
-                              marginTop: 2.5.h,
-                              child: CustomActivityDetail(
-                                header: "Assign to",
-                                profileURL:
-                                    activity.assignedProfileURL.toString(),
-                                position: activity.assignedTo.toString(),
-                                user: activity.assignedName.toString(),
-                                dateText:
-                                    "Due on : ${(activity.endAt!.toUtc()).day} / ${(activity.endAt!.toUtc()).month} / ${(activity.endAt!.toUtc()).year} ",
-                              ),
+                          ? CustomActivityDetail(
+                              header: "Assign to",
+                              profileURL:
+                                  activity.assignedProfileURL.toString(),
+                              position: activity.assignedTo.toString(),
+                              user: activity.assignedName.toString(),
+                              dateText:
+                                  "Due on : ${(activity.endAt!.toUtc()).day} / ${(activity.endAt!.toUtc()).month} / ${(activity.endAt!.toUtc()).year} ",
                             )
                           : Container(),
-                      SizedBox(height: 5.h),
-                      CustomDropdownField(
-                        lableText: "Status",
-                        prefixIcon: Icons.settings_backup_restore_outlined,
-                        list: activityMgtController.statusDropdownList,
-                        initialValue: (isEdit) ? activity.status : null,
-                        isEditable: activityMgtController.isEditable(),
-                        onChange: (value) {
-                          activityMgtController.status.value = value;
-                        },
+                      CustomCardWidget(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 0.w, vertical: 2.h),
+                        childWidget: Column(
+                          children: [
+                            SizedBox(height: 0.5.h),
+                            CustomDropdownField(
+                              lableText: "Status",
+                              prefixIcon:
+                                  Icons.settings_backup_restore_outlined,
+                              list: activityMgtController.statusDropdownList,
+                              initialValue: (isEdit) ? activity.status : null,
+                              isEditable: activityMgtController.isEditable(),
+                              onChange: (value) {
+                                activityMgtController.status.value = value;
+                              },
+                            ),
+                            SizedBox(height: 2.5.h),
+                            CustomFormField(
+                              hintText: "Activity Title",
+                              lableText: "Activity Title",
+                              isPass: false,
+                              fieldController:
+                                  activityMgtController.titleController,
+                              prefixIcon: Icons.keyboard,
+                              isEditable: activityMgtController.isEditable(),
+                            ),
+                            SizedBox(height: 2.5.h),
+                            CustomFormField(
+                              hintText: "Activity Description",
+                              lableText: "Activity Description",
+                              isPass: false,
+                              fieldController:
+                                  activityMgtController.descriptionController,
+                              prefixIcon: Icons.keyboard,
+                              maxLines: null,
+                              isEditable: activityMgtController.isEditable(),
+                            ),
+                            SizedBox(height: 2.5.h),
+                            CustomDatePickField(
+                              lableText: "Due Date",
+                              fieldController:
+                                  activityMgtController.dateController,
+                              isEditable: activityMgtController.isEditable(),
+                              onTap: () async {
+                                if (activityMgtController.isEditable()) {
+                                  DateTime? _date = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(DateTime.now().year + 1),
+                                  );
+                                  if (_date != null) {
+                                    activityMgtController.onDateSelect(_date);
+                                  }
+                                }
+                              },
+                            ),
+                            SizedBox(height: 2.5.h),
+                            CustomDropdownField(
+                              lableText: "Priority",
+                              prefixIcon: Icons.format_list_numbered_rounded,
+                              list: activityMgtController.priorityDropdownList,
+                              initialValue: (isEdit) ? activity.priority : null,
+                              isEditable: activityMgtController.isEditable(),
+                              onChange: (value) {
+                                activityMgtController.priority.value = value;
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 2.5.h),
-                      CustomFormField(
-                        hintText: "Activity Title",
-                        lableText: "Activity Title",
-                        isPass: false,
-                        fieldController: activityMgtController.titleController,
-                        prefixIcon: Icons.keyboard,
-                        isEditable: activityMgtController.isEditable(),
-                      ),
-                      SizedBox(height: 2.5.h),
-                      CustomFormField(
-                        hintText: "Activity Description",
-                        lableText: "Activity Description",
-                        isPass: false,
-                        fieldController:
-                            activityMgtController.descriptionController,
-                        prefixIcon: Icons.keyboard,
-                        maxLines: null,
-                        isEditable: activityMgtController.isEditable(),
-                      ),
-                      SizedBox(height: 2.5.h),
-                      CustomDatePickField(
-                        lableText: "Due Date",
-                        fieldController: activityMgtController.dateController,
-                        isEditable: activityMgtController.isEditable(),
-                        onTap: () async {
-                          if (activityMgtController.isEditable()) {
-                            DateTime? _date = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(DateTime.now().year + 1),
-                            );
-                            if (_date != null) {
-                              activityMgtController.onDateSelect(_date);
-                            }
-                          }
-                        },
-                      ),
-                      SizedBox(height: 2.5.h),
-                      CustomDropdownField(
-                        lableText: "Priority",
-                        prefixIcon: Icons.format_list_numbered_rounded,
-                        list: activityMgtController.priorityDropdownList,
-                        initialValue: (isEdit) ? activity.priority : null,
-                        isEditable: activityMgtController.isEditable(),
-                        onChange: (value) {
-                          activityMgtController.priority.value = value;
-                        },
-                      ),
-                      SizedBox(height: 5.h),
                       (activityMgtController.isEditable())
-                          ? CustomContainer(
-                              margin: EdgeInsets.symmetric(horizontal: 4.w),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                          ? CustomCardWidget(
+                              childWidget: Row(
+                                mainAxisAlignment: (isEdit)
+                                    ? MainAxisAlignment.spaceAround
+                                    : MainAxisAlignment.center,
                                 children: [
                                   (isEdit)
                                       ? CustomButton(
@@ -159,7 +164,7 @@ class ManageActivity extends StatelessWidget {
                                         )
                                       : Container(),
                                   CustomButton(
-                                    width: (isEdit) ? 42.5.w : 92.w,
+                                    width: (isEdit) ? 42.5.w : 87.5.w,
                                     title: "Next",
                                     icon: Icons.arrow_forward,
                                     fontsize: 5.w,

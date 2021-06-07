@@ -29,7 +29,6 @@ class AssignActivityController extends GetxController {
 
   addActivity(ActivityModel activity) {
     if (activity.assignedTo != null) {
-      // print(activity.toMap());
       CustomDialog().showLoadingDialog("Please Wait...");
       dbService.addActivity(activity).then((value) {
         if (value.isSuccess) {

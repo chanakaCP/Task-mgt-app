@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
 import 'package:task_mgt_app/getX/controller/authController.dart';
 import 'package:task_mgt_app/screens/auth/screens/signInScreen.dart';

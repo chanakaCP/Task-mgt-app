@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/customLoadingWidget.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/getX/controller/employeListController.dart';
 import 'package:task_mgt_app/customWidgets/listTiles/customUserListItem.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

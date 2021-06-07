@@ -37,11 +37,20 @@ class FirebaseSotreServices {
   Future setActivity(ActivityModel activity) async {
     activity.createAt = DateTime.now();
     activity.createBy = userService.user.userId;
+    bool isNew = (activity.id == null) ? true : false;
+
     try {
       DocumentReference ref =
           firestoreInstance.collection("activity").doc(activity.id);
       activity.id = ref.id;
-      await ref.set(activity.toMap(), SetOptions(merge: true));
+      await ref.set(activity.toMap(), SetOptions(merge: true)).then((value) {
+        if (isNew) {
+          firestoreInstance
+              .collection("users")
+              .doc(activity.assignedTo)
+              .update({"taskAssigned": FieldValue.increment(1)});
+        }
+      });
       return true;
     } catch (e) {
       print(e.toString());

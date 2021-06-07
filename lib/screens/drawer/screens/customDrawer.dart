@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customIconButton.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
+import 'package:task_mgt_app/customWidgets/common/customDialog.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/customWidgets/imageView/customImageView.dart';
 import 'package:task_mgt_app/getX/controller/drawerController.dart';
 import 'package:task_mgt_app/getX/services/userService.dart';
@@ -138,7 +140,21 @@ class CustomDrawer extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                           borderWidth: 1,
                           callback: () {
-                            // empController.deleteUser();
+                            Get.back();
+                            Timer(Duration(milliseconds: 250), () {
+                              CustomDialog()
+                                  .showConfirmDialog(
+                                content: "Are you sure you want to LOGOUT",
+                                yesText: "YES",
+                                cancelText: "CANCEL",
+                              )
+                                  .then((value) {
+                                if (value)
+                                  drawerController.signOut();
+                                else
+                                  Get.back();
+                              });
+                            });
                           },
                         ),
                       ],

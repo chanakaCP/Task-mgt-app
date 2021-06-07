@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTitleText extends StatelessWidget {

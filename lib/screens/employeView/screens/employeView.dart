@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
 import 'package:task_mgt_app/customWidgets/buttons/custombutton.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
-import 'package:task_mgt_app/customWidgets/customText.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/customWidgets/imageView/customImageView.dart';
 import 'package:task_mgt_app/getX/controller/employeeViewController.dart';
 import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/RegisterUser.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:task_mgt_app/screens/drawer/screens/customDrawer.dart';
 import 'package:task_mgt_app/screens/employeView/widgets/customCounterCard.dart';
 import 'package:task_mgt_app/screens/employeView/widgets/customTaskBadge.dart';
 
@@ -20,6 +21,7 @@ class EmployeView extends StatelessWidget {
 
   final empController = Get.put(EmployeeViewController());
   final UserService userService = Get.find<UserService>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,12 @@ class EmployeView extends StatelessWidget {
         appBar: CustomAppBar(
           title: "Employe",
           isBack: true,
-          drawerCallback: () {},
+          drawerCallback: () {
+            if (employe.userId != null) Scaffold.of(context).openDrawer();
+          },
         ),
+        drawerEnableOpenDragGesture: false,
+        endDrawer: CustomDrawer(),
         body: GetX<EmployeeViewController>(
           initState: (_) {
             empController.initState(employe);
@@ -45,7 +51,7 @@ class EmployeView extends StatelessWidget {
                   vertical: 2.5.h,
                 ),
                 child: Form(
-                  key: empController.formKey,
+                  key: formKey,
                   child: Column(
                     children: [
                       CustomContainer(
@@ -196,7 +202,9 @@ class EmployeView extends StatelessWidget {
                                     title: "Save",
                                     textColor: Colors.white,
                                     callback: () {
-                                      empController.updateUser();
+                                      if (formKey.currentState!.validate()) {
+                                        empController.updateUser();
+                                      }
                                     },
                                   ),
                                 ],

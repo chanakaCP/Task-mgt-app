@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/appbar/customAppBar.dart';
-import 'package:task_mgt_app/customWidgets/buttons/customBorderButton.dart';
-import 'package:task_mgt_app/customWidgets/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/buttons/customIconButton.dart';
+import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
+import 'package:task_mgt_app/customWidgets/formComponent/customDatePickField.dart';
+import 'package:task_mgt_app/customWidgets/formComponent/customFilterDropdown.dart';
 import 'package:task_mgt_app/screens/drawer/screens/customDrawer.dart';
 import 'package:task_mgt_app/customWidgets/customLoadingWidget.dart';
 import 'package:task_mgt_app/getX/controller/homeController.dart';
@@ -43,52 +46,12 @@ class Home extends StatelessWidget {
           ),
           drawerEnableOpenDragGesture: false,
           endDrawer: CustomDrawer(),
-          body: Column(
+          body: Stack(
             children: [
-              CustomContainer(
-                height: 8.h,
-                padding: EdgeInsets.symmetric(vertical: 1.5.h),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    CustomBorderButton(
-                      title: "All",
-                      callback: () {
-                        homeController.onTabPressed(1);
-                      },
-                      isSelect:
-                          homeController.currentIntex.value == 1 ? true : false,
-                    ),
-                    CustomBorderButton(
-                      title: "To Do",
-                      callback: () {
-                        homeController.onTabPressed(2);
-                      },
-                      isSelect:
-                          homeController.currentIntex.value == 2 ? true : false,
-                    ),
-                    CustomBorderButton(
-                      title: "In Progress",
-                      callback: () {
-                        homeController.onTabPressed(3);
-                      },
-                      isSelect:
-                          homeController.currentIntex.value == 3 ? true : false,
-                    ),
-                    CustomBorderButton(
-                      title: "Done",
-                      callback: () {
-                        homeController.onTabPressed(4);
-                      },
-                      isSelect:
-                          homeController.currentIntex.value == 4 ? true : false,
-                    ),
-                  ],
-                ),
-              ),
               Wrap(children: [
                 CustomContainer(
-                  height: 82.25.h,
+                  marginTop: 2.5.h,
+                  height: 87.5.h,
                   child: ListView.builder(
                     itemCount: 1,
                     itemBuilder: (context, index) {
@@ -97,6 +60,93 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ]),
+              Positioned(
+                top: 2.5.w,
+                right: 2.5.w,
+                child: InkWell(
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 150),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 10,
+                          spreadRadius: 10,
+                        )
+                      ],
+                    ),
+                    height: homeController.containerHeight.value,
+                    width: homeController.containerWidth.value,
+                    child: (!homeController.isExpanded.value)
+                        ? Icon(
+                            Icons.search,
+                            color: Colors.blue,
+                          )
+                        : CustomContainer(
+                            margin: EdgeInsets.symmetric(horizontal: 5.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: 70.w,
+                                      child: CustomFilterDropdown(
+                                        list: homeController.categoryDropdown,
+                                        onChange: (value) {
+                                          homeController.category.value = value;
+                                        },
+                                        lableText: "Filter By",
+                                      ),
+                                    ),
+                                    CustomIconButton(
+                                      icon: Icons.close,
+                                      iconSize: 8.w,
+                                      bgColor: Colors.blue[100],
+                                      iconColor: Colors.blue,
+                                      callback: () {
+                                        homeController.onClickExpand();
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    (homeController.category.value != "All")
+                                        ? loadFilterWidget(
+                                            homeController.category.value,
+                                            context,
+                                          )
+                                        : Container(),
+                                    CustomIconButton(
+                                      icon: Icons.search,
+                                      iconSize: 8.w,
+                                      bgColor: Colors.blue[100],
+                                      iconColor: Colors.blue,
+                                      callback: () {
+                                        homeController.onClickSearch();
+                                        // homeController.onClickExpand();
+                                      },
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                  ),
+                  onTap: () {
+                    if (!homeController.isExpanded.value) {
+                      homeController.onClickExpand();
+                    }
+                  },
+                ),
+              )
             ],
           ),
         );
@@ -112,5 +162,53 @@ class Home extends StatelessWidget {
         );
       }
     });
+  }
+
+  loadFilterWidget(String value, BuildContext context) {
+    if (value == "Status") {
+      return Container(
+        width: 70.w,
+        child: CustomFilterDropdown(
+          list: homeController.statusDropdown,
+          onChange: (value) {
+            homeController.status.value = value;
+          },
+          lableText: "Status",
+        ),
+      );
+    } else if (value == "Due Date") {
+      return Container(
+        width: 70.w,
+        child: CustomDatePickField(
+            margin: EdgeInsets.all(0),
+            contentPadding: EdgeInsets.only(left: 7.5.w, top: 3.h),
+            lableText: "Due Date",
+            fieldController: homeController.dateController,
+            isEditable: true,
+            onTap: () async {
+              DateTime? _date = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime(DateTime.now().year + 1),
+              );
+              if (_date != null) {
+                homeController.onDateSelect(_date);
+              }
+            }),
+      );
+    }
+    //  else {
+    //   return Container(
+    //     width: 70.w,
+    //     child: CustomFilterDropdown(
+    //       list: homeController.assigneeDropdown,
+    //       onChange: (value) {
+    //         homeController.status.value = value;
+    //       },
+    //       lableText: "Assignee",
+    //     ),
+    //   );
+    // }
   }
 }
