@@ -24,7 +24,7 @@ class Home extends StatelessWidget {
       if (homeController.user!.value.isAdmin != null) {
         return Scaffold(
           backgroundColor: Colors.white,
-          floatingActionButton: (homeController.user!.value.isAdmin! == true)
+          floatingActionButton: (userService.userData.value.isAdmin == true)
               ? FloatingActionButton(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,

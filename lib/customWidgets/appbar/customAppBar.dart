@@ -30,10 +30,6 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               ),
               onTap: () {
                 Scaffold.of(context).openEndDrawer();
-                // AuthService().signOut();
-                // Storage().deleteValue("id");
-                // Get.offAllNamed("/signIn");
-                // drawerCallback();
               },
             );
           }),

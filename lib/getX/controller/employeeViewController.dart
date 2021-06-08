@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/common/customDialog.dart';
 import 'package:task_mgt_app/getX/services/databaseService.dart';
+import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/RegisterUser.dart';
 
 class EmployeeViewController extends GetxController {
   final DatabaseService dbService = Get.put(DatabaseService());
   RegisterUser updateUserModel = RegisterUser();
+  final UserService userService = Get.find<UserService>();
 
   final nameController = TextEditingController();
   final positionController = TextEditingController();
@@ -101,6 +103,15 @@ class EmployeeViewController extends GetxController {
       return false;
     } else {
       return true;
+    }
+  }
+
+  checkEditPermission(String empId) {
+    if (userService.userData.value.isAdmin! ||
+        userService.userData.value.userId == empId) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

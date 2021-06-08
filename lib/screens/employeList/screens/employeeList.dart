@@ -90,7 +90,8 @@ class EmployeList extends StatelessWidget {
                 CustomContainer(
                   marginTop:
                       (userService.userData.value.isAdmin!) ? 0.h : 1.25.h,
-                  height: 82.25.h,
+                  height:
+                      (userService.userData.value.isAdmin!) ? 82.25.h : 89.h,
                   child: ListView.builder(
                     itemCount: 1,
                     itemBuilder: (context, index) {

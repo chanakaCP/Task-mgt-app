@@ -155,6 +155,8 @@ class EmployeView extends StatelessWidget {
                         isPass: false,
                         fieldController: empController.nameController,
                         prefixIcon: Icons.keyboard,
+                        isEditable:
+                            empController.checkEditPermission(employe.userId!),
                       ),
                       SizedBox(height: 3.h),
                       CustomFormField(
@@ -163,6 +165,8 @@ class EmployeView extends StatelessWidget {
                         isPass: false,
                         fieldController: empController.positionController,
                         prefixIcon: Icons.laptop,
+                        isEditable:
+                            empController.checkEditPermission(employe.userId!),
                       ),
                       ((userService.userData.value.isAdmin! ||
                                   userService.userData.value.userId ==
