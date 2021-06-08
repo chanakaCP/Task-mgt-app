@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_mgt_app/customWidgets/buttons/customIconButton.dart';
 import 'package:task_mgt_app/customWidgets/container/customContainer.dart';
 import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/customWidgets/imageView/customImageView.dart';
+import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,6 +19,9 @@ class CustomTaskListItem extends StatelessWidget {
     required this.onTapCard,
     required this.activity,
   }) : super(key: key);
+
+  final UserService userService = Get.find<UserService>();
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -62,21 +67,32 @@ class CustomTaskListItem extends StatelessWidget {
                       size: 3.5.w,
                       color: Colors.black54,
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 0.25.h),
+                    CustomText(
+                      text: activity.status.toString(),
+                      weight: FontWeight.w500,
+                      size: 2.5.w,
+                      color: Colors.black54,
+                      overflow: TextOverflow.ellipsis,
                     )
                   ],
                 ),
               ),
             ),
             SizedBox(width: 2.5.w),
-            CustomIconButton(
-              icon: Icons.restore_outlined,
-              iconSize: 8.w,
-              bgColor: Colors.blue[100],
-              iconColor: Colors.blue,
-              callback: () {
-                onTapIcon();
-              },
-            ),
+            (userService.userData.value.isAdmin! ||
+                    (userService.userData.value.userId == activity.assignedTo))
+                ? CustomIconButton(
+                    icon: Icons.restore_outlined,
+                    iconSize: 8.w,
+                    bgColor: Colors.blue[100],
+                    iconColor: Colors.blue,
+                    callback: () {
+                      onTapIcon();
+                    },
+                  )
+                : Container(),
           ],
         ),
       ),

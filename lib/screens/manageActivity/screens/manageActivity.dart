@@ -8,6 +8,7 @@ import 'package:task_mgt_app/customWidgets/formComponent/customDatePickField.dar
 import 'package:task_mgt_app/customWidgets/formComponent/customDropdownFormField.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/getX/controller/activityManageController.dart';
 import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
@@ -80,7 +81,9 @@ class ManageActivity extends StatelessWidget {
                                   Icons.settings_backup_restore_outlined,
                               list: activityMgtController.statusDropdownList,
                               initialValue: (isEdit) ? activity.status : null,
-                              isEditable: activityMgtController.isEditable(),
+                              isEditable: activityMgtController.isEditable() ||
+                                  (userService.userData.value.userId ==
+                                      activity.assignedTo),
                               onChange: (value) {
                                 activityMgtController.status.value = value;
                               },
@@ -159,7 +162,7 @@ class ManageActivity extends StatelessWidget {
                                           borderWidth: 1,
                                           callback: () {
                                             activityMgtController
-                                                .deleteUser(activity.id!);
+                                                .deleteUser(activity);
                                           },
                                         )
                                       : Container(),
@@ -177,7 +180,19 @@ class ManageActivity extends StatelessWidget {
                                 ],
                               ),
                             )
-                          : Container(),
+                          : (userService.userData.value.userId ==
+                                  activity.assignedTo)
+                              ? CustomButton(
+                                  width: 87.5.w,
+                                  title: "Update State",
+                                  fontsize: 5.w,
+                                  textColor: Colors.white,
+                                  callback: () {
+                                    activityMgtController
+                                        .onClickUpdateState(activity.id!);
+                                  },
+                                )
+                              : Container(),
                       SizedBox(height: 2.5.h),
                     ],
                   );

@@ -54,14 +54,26 @@ class DatabaseService extends GetxService {
     return responce;
   }
 
-  Future<ResponceModel> deleteActivity(String activityId) async {
+  Future<ResponceModel> deleteActivity(ActivityModel activity) async {
     ResponceModel responce;
-    final result = await _service.deleteActivity(activityId);
+    final result = await _service.deleteActivity(activity);
     if (result == true) {
       responce =
           ResponceModel(message: "Activity has been Removed", isSuccess: true);
     } else {
       responce = ResponceModel(message: "Action failed", isSuccess: false);
+    }
+    return responce;
+  }
+
+  Future<ResponceModel> updateStatus(String activityId, String status) async {
+    ResponceModel responce;
+    final result = await _service.updateState(activityId, status);
+    if (result == true) {
+      responce =
+          ResponceModel(message: "Successfully Updated", isSuccess: true);
+    } else {
+      responce = ResponceModel(message: "Failed to update", isSuccess: false);
     }
     return responce;
   }

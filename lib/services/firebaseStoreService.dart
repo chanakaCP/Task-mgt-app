@@ -94,9 +94,30 @@ class FirebaseSotreServices {
     });
   }
 
-  Future deleteActivity(String activityId) async {
+  Future deleteActivity(ActivityModel activity) async {
     try {
-      await firestoreInstance.collection("activity").doc(activityId).delete();
+      await firestoreInstance
+          .collection("activity")
+          .doc(activity.id)
+          .delete()
+          .then((value) {
+        firestoreInstance
+            .collection("users")
+            .doc(activity.assignedTo)
+            .update({"taskAssigned": FieldValue.increment(-1)});
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future updateState(String activityId, String status) async {
+    try {
+      await firestoreInstance
+          .collection("activity")
+          .doc(activityId)
+          .update({"status": status});
       return true;
     } catch (e) {
       return false;

@@ -42,6 +42,8 @@ class AssignActivityController extends GetxController {
           CustomDialog().failed(msg: value.message.toString());
         }
       });
+    } else {
+      CustomDialog().warning(msg: "Please select the user to assign Activity");
     }
   }
 

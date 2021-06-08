@@ -13,7 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeController extends GetxController {
   final UserService userService = Get.put(UserService());
-
+  RxBool reload = false.obs;
   RxBool isLoading = true.obs;
   Rx<RegisterUser>? user;
   RxList<ActivityModel> activityList = RxList<ActivityModel>();
@@ -64,7 +64,9 @@ class HomeController extends GetxController {
     user = userService.userData;
     category.value = categoryDropdown.first.value!;
     status.value = statusDropdown.first.value!;
-    onClickSearch();
+    showingList =
+        List.generate(activityList.length, (index) => activityList[index]).obs;
+
     // assigneeDropdown.add(DropdownMenuItem(
     //   child: Text("Select Employee"),
     //   value: "0",
@@ -80,8 +82,6 @@ class HomeController extends GetxController {
 
   bindActivityList() {
     activityList.bindStream(FirebaseSotreServices().getActivityList());
-    showingList =
-        List.generate(activityList.length, (index) => activityList[index]).obs;
     stopLoading();
   }
 
@@ -102,6 +102,7 @@ class HomeController extends GetxController {
   }
 
   onClickSearch() {
+    reload.value = true;
     if (category.value == "All") {
       collaps();
       showingList.clear();

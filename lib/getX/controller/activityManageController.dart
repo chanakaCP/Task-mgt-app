@@ -23,11 +23,11 @@ class ActivityManageController extends GetxController {
   List<DropdownMenuItem<String>> priorityDropdownList =
       DropdownConst().priority;
   List<DropdownMenuItem<String>> statusDropdownList = DropdownConst().status;
-  // RxString dateTime = "none".obs;
   Rx<Color> datePickColor = Colors.blueGrey.obs;
 
   onClickNext(ActivityModel activity) {
     if (formKey.currentState!.validate()) {
+      print(dateController.text);
       if (dateController.text.isEmpty) {
         datePickColor.value = Colors.red;
         dateController.text = "Please pick a Deadline";
@@ -61,7 +61,7 @@ class ActivityManageController extends GetxController {
     } else {
       titleController.text = "";
       descriptionController.text = "";
-      dateController.text = "Pick a deadline";
+      dateController.text = "";
     }
     datePickColor = Colors.blueGrey.obs;
   }
@@ -73,9 +73,26 @@ class ActivityManageController extends GetxController {
     datePickColor.value = Colors.blueGrey;
   }
 
-  deleteUser(String activityId) {
+  deleteUser(ActivityModel activity) {
     CustomDialog().showLoadingDialog("Please Wait...");
-    dbService.deleteActivity(activityId).then((value) {
+    dbService.deleteActivity(activity).then((value) {
+      if (value.isSuccess) {
+        Get.back();
+        CustomDialog().success(msg: value.message);
+        Timer(Duration(milliseconds: 1250), () {
+          Get.back();
+          Get.back();
+        });
+      } else {
+        Get.back();
+        CustomDialog().failed(msg: value.message);
+      }
+    });
+  }
+
+  onClickUpdateState(String activityId) {
+    CustomDialog().showLoadingDialog("Please Wait...");
+    dbService.updateStatus(activityId, status.value).then((value) {
       if (value.isSuccess) {
         Get.back();
         CustomDialog().success(msg: value.message);

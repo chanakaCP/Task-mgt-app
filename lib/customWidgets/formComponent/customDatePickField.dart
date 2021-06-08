@@ -58,6 +58,11 @@ class CustomDatePickField extends StatelessWidget {
           alignLabelWithHint: true,
           hintText: lableText,
         ),
+        validator: (value) {
+          if (fieldController.text == "") {
+            return "Due date is required";
+          }
+        },
       ),
     );
   }

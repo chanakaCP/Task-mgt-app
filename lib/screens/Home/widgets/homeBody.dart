@@ -29,29 +29,53 @@ class HomeBody extends StatelessWidget {
           } else {
             return SingleChildScrollView(
               child: CustomContainer(
-                child: Column(
-                  children: [
-                    //  ALL ACTIVITY
-                    if (homeController.showingList.length == 0)
-                      Center(
-                        child: CustomContainer(
-                          marginTop: 35.h,
-                          child: CustomText(text: "No Activity found..."),
-                        ),
+                child: (homeController.reload.value == true)
+                    ? Column(
+                        children: [
+                          if (homeController.showingList.length == 0)
+                            Center(
+                              child: CustomContainer(
+                                marginTop: 35.h,
+                                child: CustomText(text: "No Activity found..."),
+                              ),
+                            ),
+                          for (var i = 0;
+                              i < homeController.showingList.length;
+                              i++)
+                            CustomTaskListItem(
+                              activity: homeController.activityList[i],
+                              onTapCard: () {
+                                homeController
+                                    .onTapEdit(homeController.activityList[i]);
+                              },
+                              onTapIcon: () {},
+                            ),
+                          SizedBox(height: 10.h),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          if (homeController.activityList.length == 0)
+                            Center(
+                              child: CustomContainer(
+                                marginTop: 35.h,
+                                child: CustomText(text: "No Activity found..."),
+                              ),
+                            ),
+                          for (var i = 0;
+                              i < homeController.activityList.length;
+                              i++)
+                            CustomTaskListItem(
+                              activity: homeController.activityList[i],
+                              onTapCard: () {
+                                homeController
+                                    .onTapEdit(homeController.activityList[i]);
+                              },
+                              onTapIcon: () {},
+                            ),
+                          SizedBox(height: 10.h),
+                        ],
                       ),
-                    for (var i = 0; i < homeController.showingList.length; i++)
-                      CustomTaskListItem(
-                        activity: homeController.activityList[i],
-                        onTapCard: () {
-                          homeController
-                              .onTapEdit(homeController.activityList[i]);
-                        },
-                        onTapIcon: () {},
-                      ),
-
-                    SizedBox(height: 10.h),
-                  ],
-                ),
               ),
             );
           }
