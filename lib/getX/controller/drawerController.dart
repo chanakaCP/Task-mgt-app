@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:task_mgt_app/config/storage/storage.dart';
+import 'package:task_mgt_app/customWidgets/common/customDialog.dart';
 import 'package:task_mgt_app/getX/services/authService.dart';
 
 class CustomDrawerController extends GetxController {
@@ -11,8 +14,13 @@ class CustomDrawerController extends GetxController {
   }
 
   signOut() {
+    CustomDialog().showLoadingDialog("Please Wait");
     _authService.signOut();
     Storage().deleteValue("id");
-    Get.offAllNamed("/signIn");
+    Get.back();
+    Timer(Duration(milliseconds: 3500), () {
+      Get.offAllNamed("/");
+    });
+    CustomDialog().notify(msg: "Signing off...");
   }
 }

@@ -48,7 +48,6 @@ class HomeBody extends StatelessWidget {
                                 homeController
                                     .onTapEdit(homeController.activityList[i]);
                               },
-                              onTapIcon: () {},
                             ),
                           SizedBox(height: 10.h),
                         ],
@@ -71,7 +70,6 @@ class HomeBody extends StatelessWidget {
                                 homeController
                                     .onTapEdit(homeController.activityList[i]);
                               },
-                              onTapIcon: () {},
                             ),
                           SizedBox(height: 10.h),
                         ],

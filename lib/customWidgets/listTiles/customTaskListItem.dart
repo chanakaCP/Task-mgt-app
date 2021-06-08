@@ -10,12 +10,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTaskListItem extends StatelessWidget {
   final VoidCallback onTapCard;
-  final VoidCallback onTapIcon;
   final ActivityModel activity;
 
   CustomTaskListItem({
     Key? key,
-    required this.onTapIcon,
     required this.onTapCard,
     required this.activity,
   }) : super(key: key);
@@ -84,12 +82,12 @@ class CustomTaskListItem extends StatelessWidget {
             (userService.userData.value.isAdmin! ||
                     (userService.userData.value.userId == activity.assignedTo))
                 ? CustomIconButton(
-                    icon: Icons.restore_outlined,
+                    icon: Icons.edit_outlined,
                     iconSize: 8.w,
                     bgColor: Colors.blue[100],
                     iconColor: Colors.blue,
                     callback: () {
-                      onTapIcon();
+                      onTapCard();
                     },
                   )
                 : Container(),

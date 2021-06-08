@@ -8,7 +8,6 @@ import 'package:task_mgt_app/customWidgets/formComponent/customDatePickField.dar
 import 'package:task_mgt_app/customWidgets/formComponent/customDropdownFormField.dart';
 import 'package:task_mgt_app/customWidgets/formComponent/customFormField.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:task_mgt_app/customWidgets/text/customText.dart';
 import 'package:task_mgt_app/getX/controller/activityManageController.dart';
 import 'package:task_mgt_app/getX/services/userService.dart';
 import 'package:task_mgt_app/models/ActivityModel.dart';
